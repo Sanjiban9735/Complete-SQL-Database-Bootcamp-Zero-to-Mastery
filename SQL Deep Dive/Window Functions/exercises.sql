@@ -4,8 +4,22 @@
 *  Table: Country
 */
 
-SELECT *
-FROM country;
+SELECT
+  DISTINCT continent,
+  SUM(population) OVER w1 as"continent population"
+FROM country 
+WINDOW w1 AS( PARTITION BY continent );
+*/
+
+--select continent, sum(population) from country
+--group by continent
+
+select distinct continent , 
+            sum(population) over (
+            PARTITION by continent)
+            
+from country
+
 
 /*
 *  To the previous query add on the ability to calculate the percentage of the world population
@@ -17,8 +31,18 @@ FROM country;
 *  Table: Country
 */
 
-SELECT *
-FROM country;
+SELECT
+  DISTINCT continent,
+  SUM(population) OVER w1 as"continent population",
+  CONCAT( 
+      ROUND( 
+          ( 
+            SUM( population::float4 ) OVER w1 / 
+            SUM( population::float4 ) OVER() 
+          ) * 100    
+      ),'%' ) as "percentage of population"
+FROM country 
+WINDOW w1 AS( PARTITION BY continent );
 
 
 /*
