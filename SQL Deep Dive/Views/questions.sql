@@ -4,8 +4,12 @@
 *  Database: Employees
 */
 
-CREATE VIEW "90-95" AS
--- ...
+-- SELECT * from "90-95"
+-- order by hire_date
+Create or REPLACE view "90-95" as
+SELECT emp_no , first_name , hire_date
+from employees
+where EXTRACT(year from hire_date) BETWEEN 1990 and 1995
 
 /*
 *  Create a view "bigbucks" that:
@@ -13,5 +17,12 @@ CREATE VIEW "90-95" AS
 *  Database: Employees
 */
 
-CREATE VIEW "bigbucks" AS
+CREATe or replace view bigbucks AS
+select e.emp_no, e.first_name , s.salary 
+from employees as e 
+join salaries as s using (emp_no)
+where s.salary > 
+order by salary
+
+-- SELECT * from bigbucks
 -- ...
