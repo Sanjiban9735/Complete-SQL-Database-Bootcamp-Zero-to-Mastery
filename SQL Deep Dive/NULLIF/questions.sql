@@ -4,6 +4,4 @@
 * Question: Show NULL when the product is not on special (0)
 */
 
-SELECT *
-FROM products
-
+SELECT *, nullif(special,0) as "special" from products
